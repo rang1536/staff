@@ -41,6 +41,7 @@ public class StaffSearchServlet extends HttpServlet {
 			
 			e.printStackTrace();
 		}
+		
 		request.setAttribute("alr", religinList);
 		request.setAttribute("als", schoolList);
 		request.setAttribute("alSkill", skillList);

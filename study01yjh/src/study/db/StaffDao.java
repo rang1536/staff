@@ -241,23 +241,43 @@ public class StaffDao {
 		return rowCount;
 	}
 	
-	//04 staff등록
-	public int staffInsert(Staff s){
+	/*staff등록하고 getGeneratedKeys통하여 staffskill태이블에 키값세팅하고 입력받은 스킬번호 세팅하여 
+	 * 입력처리. ConnectionAPI의 commit(),rollback()을 사용하여 staffskill태이블에 정확히
+	 * 스태프별 스킬이 세팅되게 함.
+	 * */
+	public int staffInsert(Staff s,String[] skillNo){
 		try{
 			conn=this.getConnection();
-			pstmt = conn.prepareStatement("insert into staff(name,sn,graduateday,schoolno,religionno) values(?,?,?,?,?)");
+			int staffNo = 0;
+			conn.setAutoCommit(false);
+			pstmt = conn.prepareStatement("insert into staff(name,sn,graduateday,schoolno,religionno) values(?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, s.getStaffName());
 			pstmt.setString(2, s.getStaffSn());
 			pstmt.setString(3, s.getGraduateday());
 			pstmt.setInt(4, s.getSchoolNo());
 			pstmt.setInt(5, s.getReligionNo());
 			rowCount = pstmt.executeUpdate();
-			
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()){
+				staffNo = rs.getInt(1);
+				for(int i=0 ; i < skillNo.length ; i++){
+					pstmt = conn.prepareStatement("insert into staffSkill(staffno,skillno) values(?,?)");
+					pstmt.setInt(1, staffNo);
+					pstmt.setInt(2, Integer.parseInt(skillNo[i]));
+					pstmt.executeUpdate();
+				}
+				
+			}
+			conn.commit();
+			conn.setAutoCommit(true);
 		}catch(Exception e){
+			try{conn.rollback();}catch(Exception ignore){};
 			e.printStackTrace();
 		}finally{
-			this.close(conn,pstmt,null );
+			this.close(conn,pstmt,rs);
+			
 		}
+		
 		return rowCount;
 	}
 	

@@ -74,15 +74,14 @@ public class StaffAddServlet extends HttpServlet {
 		staff.setSchoolNo(graduate);
 		staff.setReligionNo(religionNo);
 		
-		int result = staffDao.staffInsert(staff);
-		System.out.println(result);
-		int no = staffDao.selectLast();
-		 
-		for(int i=0 ; i < skillName.length ; i++){
+		staffDao.staffInsert(staff,skillName);
+				 
+		/* getGeneratedKeys()사용하여 staffskill등록을 StaffDao에서 처리
+		 * for(int i=0 ; i < skillName.length ; i++){
 			//System.out.println(skillName[i]);
-			staffDao.staffSkillInsert(no, Integer.parseInt(skillName[i]));
+			staffDao.staffSkillInsert(result, Integer.parseInt(skillName[i]));
 			
-		}
+		}*/
 		response.sendRedirect(request.getContextPath()+"/index.jsp");
 		
 	}
