@@ -4,7 +4,7 @@ public class Staff {
 	private int staffNo;
 	private String staffName;
 	private String staffSn;
-	private String Graduateday;
+	private String graduateday;
 	private int schoolNo;
 	private int religionNo;
 	
@@ -27,10 +27,10 @@ public class Staff {
 		this.staffSn = staffSn;
 	}
 	public String getGraduateday() {
-		return Graduateday;
+		return graduateday;
 	}
 	public void setGraduateday(String graduateday) {
-		Graduateday = graduateday;
+		this.graduateday = graduateday;
 	}
 	public int getSchoolNo() {
 		return schoolNo;

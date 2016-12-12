@@ -11,25 +11,34 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
-<h1>STAFF 정보 조회</h1>
+<c:import url="/staffSearchForm.jsp"></c:import>
+<br/><br/><br/><br/>
 <div>
 <form>
-	<table>
+	<table border="1">
 		<tr>
 			<th>이름</th>
 			<th>주민번호</th>
 			<th>종교</th>
 			<th>학력</th>
-			<th>기술</th>
+			
 			<th>졸업일</th>
 			<th>수정및삭제</th>
 		</tr>
+		<c:forEach var="i" items="${staffList}">
 		<tr>
-			<c:forEach var="i" items="${staff}">
+			
+			
 				<td>${i.staffName}</td>
 				<td>${i.staffSn}</td>
-			</c:forEach>
+				<td>${i.religionNo}</td>
+				<td>${i.schoolNo}</td>
+				<td>${i.graduateday}</td>
+				<td><a href="<c:url value="/StaffUpdateServlet?staffNo=${i.staffNo}"/>">수정,</a>
+				<a href="<c:url value="/StaffUpdateServlet?staffNo=${i.staffNo}"/>">삭제</a></td>
+			
 		</tr>
+		</c:forEach>
 	</table>
 </form>	
 
