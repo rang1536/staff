@@ -19,25 +19,21 @@
 		<tr>
 			<th>이름</th>
 			<th>주민번호</th>
-			<th>종교</th>
-			<th>학력</th>
-			
 			<th>졸업일</th>
+			<th>학력</th>
+			<th>종교</th>
 			<th>수정및삭제</th>
 		</tr>
 		<c:forEach var="i" items="${staffList}">
-		<tr>
-			
-			
+			<tr>
 				<td>${i.staffName}</td>
 				<td>${i.staffSn}</td>
-				<td>${i.religionNo}</td>
-				<td>${i.schoolNo}</td>
 				<td>${i.graduateday}</td>
+				<td>${i.schoolGraduate}</td>
+				<td>${i.religionName}</td>
 				<td><a href="<c:url value="/StaffUpdateServlet?staffNo=${i.staffNo}"/>">수정,</a>
 				<a href="<c:url value="/StaffUpdateServlet?staffNo=${i.staffNo}"/>">삭제</a></td>
-			
-		</tr>
+			</tr>
 		</c:forEach>
 	</table>
 </form>	

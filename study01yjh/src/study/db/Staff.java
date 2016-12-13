@@ -7,7 +7,22 @@ public class Staff {
 	private String graduateday;
 	private int schoolNo;
 	private int religionNo;
+	private String schoolGraduate;
+	private String religionName;
 	
+	
+	public String getSchoolGraduate() {
+		return schoolGraduate;
+	}
+	public void setSchoolGraduate(String schoolGraduate) {
+		this.schoolGraduate = schoolGraduate;
+	}
+	public String getReligionName() {
+		return religionName;
+	}
+	public void setReligionName(String religionName) {
+		this.religionName = religionName;
+	}
 	public int getStaffNo() {
 		return staffNo;
 	}

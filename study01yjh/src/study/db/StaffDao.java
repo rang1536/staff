@@ -37,14 +37,14 @@ public class StaffDao {
 	ArrayList<String> alString;
 	
 	
-	//12 staff pk값으로 모든내용 조회.
-	public Staff selectAllByPK(int no){
+	
+	//12 staff 모든내용 조회 religion과school테이블staff간에 PK=FK조건으로 name컬럼 속성값도 같이 조회  .
+	public Staff selectAll(int no){
 		try{
 			
 			conn=this.getConnection();
-			pstmt = conn.prepareStatement("select * from staff where no=?");
-			pstmt.setInt(1,no);
-			
+			pstmt = conn.prepareStatement("select staff.no,staff.name,staff.sn,staff.graduateday,school.graduate,religion.name from staff,religion,school where staff.religionno=religion.no and staff.schoolno=school.no and staff.no=?");
+			pstmt.setInt(1, no);
 			rs = pstmt.executeQuery();
 			alStaff = new ArrayList<Staff>();
 			while(rs.next()){
@@ -53,8 +53,10 @@ public class StaffDao {
 				staff.setStaffName(rs.getString("name"));
 				staff.setStaffSn(rs.getString("sn"));
 				staff.setGraduateday(rs.getString("graduateday"));
-				staff.setSchoolNo(rs.getInt("schoolno"));
-				staff.setReligionNo(rs.getInt("religionno"));
+				staff.setReligionName(rs.getString("religion.name"));
+				//System.out.println(staff.getReligionName());
+				staff.setSchoolGraduate(rs.getString("school.graduate"));
+				//System.out.println(staff.getSchoolGraduate());
 				
 			}
 			

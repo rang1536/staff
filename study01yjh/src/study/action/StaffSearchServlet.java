@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,14 +28,16 @@ public class StaffSearchServlet extends HttpServlet {
     StaffDao staffDao = new StaffDao();
     StaffSkill staffSkill = new StaffSkill();
     Staff staff;
- 
+    ArrayList<Religion> religionList;
+    ArrayList<School> schoolList;
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArrayList<Skill> skillList = new ArrayList<Skill>(); 
-		ArrayList<Religion> religinList = new ArrayList<Religion>();
-		ArrayList<School> schoolList = new ArrayList<School>();
+		religionList = new ArrayList<Religion>();
+		schoolList = new ArrayList<School>();
 		System.out.println("staff정보 조회화면 get요청");
 		try {
-			religinList = staffDao.r_selectAll();
+			religionList = staffDao.r_selectAll();
 			schoolList = staffDao.s_selectAll();
 			skillList = staffDao.skill_selectAll();
 		} catch (SQLException e) {
@@ -42,7 +45,7 @@ public class StaffSearchServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		request.setAttribute("alr", religinList);
+		request.setAttribute("alr", religionList);
 		request.setAttribute("als", schoolList);
 		request.setAttribute("alSkill", skillList);
 		request.getRequestDispatcher("/staffSearchForm.jsp").forward(request, response);
@@ -50,7 +53,7 @@ public class StaffSearchServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArrayList<Staff> staffListByNameAndGraduate = new ArrayList<Staff>();
 		ArrayList<Staff> staffListByGraduateDay = new ArrayList<Staff>();
-	    
+	   
 		System.out.println("staff정보 조회화면 post요청");
 		request.setCharacterEncoding("euc-kr");
 		
@@ -122,15 +125,21 @@ public class StaffSearchServlet extends HttpServlet {
 			}
 		}
 		System.out.println("최종결과"+lastNo2.size());
+		religionList = new ArrayList<Religion>();
+		schoolList = new ArrayList<School>();
 		
 		//6. 최종적으로 입력값과 일치하는 no값만 추려내어 전체정보를 조회하는 select문을 호출하고 결과값을 staffListByAll에 배열로 담는다.
+		
 		for(int i=0; i < lastNo2.size(); i++){
-			staff = staffDao.selectAllByPK(lastNo2.get(i));
+			staff = staffDao.selectAll(lastNo2.get(i));
 			staffListByAll.add(staff);
-			
 		}
 		
-		//7. 최종조회된 결과를 staffList에 담아 request영역에 세팅하고 view파일로 forward해준다.
+		
+		//7. 조회결과물을 맵에 세팅!
+		
+				
+		//8. 최종조회된 결과를 staffList에 담아 request영역에 세팅하고 view파일로 forward해준다.
 		request.setAttribute("staffList", staffListByAll);
 		request.getRequestDispatcher("/staffSearchAction.jsp").forward(request, response);
 	}	
